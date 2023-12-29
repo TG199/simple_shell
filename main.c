@@ -11,17 +11,14 @@ void err(const char *s)
 
 int main()
 {
-	int a = 20;
-	char *commands = malloc(bufsize);
+	char *commands = NULL;
 	char *token;
 	char *delim = " ";
 	size_t n;
 	ssize_t line;
 	int i;
-	char **agv = malloc(a * sizeof(char *));
+	char **agv = malloc(sizeof(bufsize));
 
-	if (commands == NULL)
-		err("Error Allocating commands");
 
 	while (1)
 	{
@@ -36,17 +33,12 @@ int main()
 		}
 		i = 0;
 		token = strtok(commands, delim);
+
 		
 		while (token != NULL)
 		{
 			agv[i] = token;
 			i++;
-
-			if (i >= a)
-			{
-				a = (int) (a * 1.5);
-				agv = realloc(agv, a * sizeof(char *));
-			}
 			token = strtok(NULL, delim);
 		}
 		agv[i] = NULL;
@@ -61,8 +53,8 @@ int main()
 			exe_commands(agv);
 		}
 	}
+	
 
 	free(commands);
 	return (0);
 }
-
