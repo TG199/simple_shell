@@ -1,7 +1,12 @@
 #include "shell.h"
 
 
-#define bufsize 1024
+/**
+ * err - Error handling function
+ * @s: string text of error
+ *
+ * Return: Nothing
+ */
 
 void err(const char *s)
 {
@@ -9,16 +14,26 @@ void err(const char *s)
 	exit(EXIT_FAILURE);
 }
 
-int main()
+/**
+ * main - Entry point of program
+ * @argc: argument count
+ * @argv: argument vector
+ * 
+ * Return: Always(0)
+ */
+
+int main(int argc, char **argv)
 {
 	char *commands = NULL;
+	char *command_cpy = NULL;
 	char *token;
-	char *delim = " ";
-	size_t n;
+	const char *delim = " \n";
+	size_t n = 0;
 	ssize_t line;
-	int i;
-	char **agv = malloc(sizeof(bufsize));
+	int i, j;
+	int num_of_tokens;
 
+	(void)argc;
 
 	while (1)
 	{
@@ -27,34 +42,56 @@ int main()
 
 		if (line == - 1 || line == EOF)
 		{
-			free(commands);
 			err("Error reading line");
 
 		}
-		i = 0;
+
+		if (strcmp(commands, "exit\n") == 0)
+		{
+			exit(EXIT_SUCCESS);
+			break;
+		}
+
+		command_cpy = malloc(sizeof(char) * line);
+		if (command_cpy == NULL)
+		{
+			perror("Mem allocation err");
+			break;
+		}
+
+		command_cpy = strdup(commands);
 		token = strtok(commands, delim);
 
-		
 		while (token != NULL)
 		{
-			agv[i] = token;
-			i++;
+			num_of_tokens++;
 			token = strtok(NULL, delim);
 		}
-		agv[i] = NULL;
+		num_of_tokens++;
 
-		if (commands!= NULL)
+		argv = malloc(sizeof(char *) * num_of_tokens);
+
+		token = strtok(command_cpy, delim);
+		i = 0;
+
+		while (token != NULL)
 		{
-			if (strcmp(commands, "exit") == 0)
-			{
-				free(commands);
-				exit(EXIT_SUCCESS);
-			}
-			exe_commands(agv);
-		}
-	}
-	
+			argv[i] = malloc(sizeof(char) * strlen(token));
+			argv[i] = strdup(token);
+			i++;
 
+			token = strtok(NULL, delim);
+		}
+		argv[i] = NULL;
+
+		exe_commands(argv);
+
+
+	}
+	for (j = 0; j < i-1; j++)
+		free(argv[j]);
 	free(commands);
+	free(command_cpy);
+	free(argv);
 	return (0);
 }

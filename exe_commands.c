@@ -1,35 +1,52 @@
 #include "shell.h"
 
 
+/**
+ * exe_commands - execute programs with the execve system call
+ * @argv: argument vector containing program
+ *
+ * Return: Nothing
+ */
 
-void exe_commands(char **agv)
+void exe_commands(char **argv)
 {
 	pid_t pid;
-	int status;
+	int status, execute;
+	char *program;
+	char *executable;
 
-	pid = fork();
-
-
-	if (pid == 0)
+	if (argv)
 	{
+		program = argv[0];
 
-		if (execve(agv[0], agv, NULL) == -1)
+		executable = find_executable(program);
+
+		if (executable != NULL)
 		{
-			err("Error in execve");
-		}
 
-	}
-	else if (pid < 0)
-	{
-		err("Error Forking");
-	}
-	else
-	{
-		do 
-		{
-			waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
-}
+			pid = fork();
+
+			if (pid == - 1)
+			{
+				err("Error forking");
+			}
+			else if (pid == 0)
+			{
+				execute = execve(executable, argv, environ);
+
+				if (execute == -1)
+				{
+					err("Error in execve");
+
+				}
+
+			}
+			else
+			{
+				waitpid(pid, &status, WUNTRACED);
+			}
 		
-
+		}
+	}
+		
+}

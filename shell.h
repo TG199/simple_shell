@@ -6,13 +6,18 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+#include <stddef.h>
 
-void exe_commands(char **agv);
+
+void exe_commands(char **argv);
 void err(const char *s);
-/*ar *find_executable(char *av);*/
+char *find_executable(char *executable);
 char *string(char *str, const char *del);
 
+extern char **environ;
 
 #endif
