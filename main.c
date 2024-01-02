@@ -31,14 +31,11 @@ int main(int argc, char **argv)
 	size_t n = 0;
 	ssize_t line;
 	int i, j;
-	int num_of_tokens;
-
-	(void)argc;
 
 	while (1)
 	{
 		write(STDOUT_FILENO, "$ ", 2);
-		line = getline(&commands, &n, stdin);
+		line = _getline(&commands, &n, stdin);
 
 		if (line == - 1 || line == EOF)
 		{
@@ -50,6 +47,9 @@ int main(int argc, char **argv)
 		{
 			exit(EXIT_SUCCESS);
 			break;
+		}
+		else if (strcmp(commands, "help\n") == 0)
+		{
 		}
 
 		command_cpy = malloc(sizeof(char) * line);
@@ -64,12 +64,12 @@ int main(int argc, char **argv)
 
 		while (token != NULL)
 		{
-			num_of_tokens++;
+			argc++;
 			token = strtok(NULL, delim);
 		}
-		num_of_tokens++;
+		argc++;
 
-		argv = malloc(sizeof(char *) * num_of_tokens);
+		argv = malloc(sizeof(char *) * argc);
 
 		token = strtok(command_cpy, delim);
 		i = 0;

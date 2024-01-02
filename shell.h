@@ -11,12 +11,13 @@
 #include <string.h>
 #include <errno.h>
 #include <stddef.h>
+#include <fcntl.h>
 
 
 void exe_commands(char **argv);
 void err(const char *s);
 char *find_executable(char *executable);
-char *string(char *str, const char *del);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
 extern char **environ;
 
