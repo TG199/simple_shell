@@ -14,6 +14,7 @@
 #include <fcntl.h>
 
 
+char *_strtok(char *str, const char *delim);
 void exe_commands(char **argv);
 void err(const char *s);
 char *find_executable(char *executable);

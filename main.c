@@ -62,6 +62,7 @@ int main(int argc, char **argv)
 		command_cpy = strdup(commands);
 		token = strtok(commands, delim);
 
+		argc = 0;
 		while (token != NULL)
 		{
 			argc++;
