@@ -10,45 +10,44 @@
  */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
-	char *buffer;
-	size_t bufsize = 20, i = 0;
-	ssize_t bytes_read;
-	int fd;
-	char c;
+        char *buffer;
+        size_t bufsize, i;
+        ssize_t bytes_read;
+        int fd;
+        char c;
 
-	buffer = malloc(sizeof(char) * bufsize);
-	if (buffer == NULL)
-	{
-		perror("Memory Allocation");
-		return (-1);
-	}
-	fd = fileno(stream);
-	if (fd == -1)
-	{
-		perror("Error getting file descriptor");
-		free(buffer);
-		return (-1);
-	}
-	bytes_read = 0;
-	while (read(fd, &c, 1) == 1 && c != '\n')
-	{
-		buffer[bytes_read] = c;
-		bytes_read++;
-		i++;
-		if (i >= bufsize)
-		{
-			bufsize *= 2;
-			buffer = realloc(buffer, bufsize);
-			if (buffer == NULL)
-			{
-				perror("Memory Management error");
-				return (-1);
-			}
-		}
-	}
-	*n = bufsize;
-	*lineptr = buffer;
-	return (bytes_read);
+        bufsize = 20, i = 0;
+        buffer = malloc(sizeof(char) * bufsize);
+        if (buffer == NULL)
+        {
+                perror("Memory Allocation");
+                return (-1);
+        }
+        fd = fileno(stream);
+        if (fd == -1)
+        {
+                perror("Error getting file descriptor");
+                free(buffer);
+                return (-1);
+        }
+        bytes_read = 0;
+        while (read(fd, &c, 1) == 1 && c != '\n')
+        {
+                buffer[bytes_read] = c;
+                bytes_read++;
+                i++;
+                if (i >= bufsize)
+                {
+                        bufsize *= 2;
+                        buffer = realloc(buffer, bufsize);
+                        if (buffer == NULL)
+                        {
+                                perror("Memory Management error");
+                                return (-1);
+                        }
+                }
+        }
+        *n = bufsize;
+        *lineptr = buffer;
+        return (bytes_read);
 }
-
-

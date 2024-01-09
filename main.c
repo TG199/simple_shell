@@ -1,97 +1,29 @@
 #include "shell.h"
 
 
-/**
- * err - Error handling function
- * @s: string text of error
- *
- * Return: Nothing
- */
-
-void err(const char *s)
+void sig(int num)
 {
-	perror(s);
-	exit(EXIT_FAILURE);
-}
+	(void)num;
 
-/**
- * main - Entry point of program
- * @argc: argument count
- * @argv: argument vector
- * 
- * Return: Always(0)
- */
+	_printf(STDOUT_FILENO, "\n$ ");
+	fflush(stdout);
+}
 
 int main(int argc, char **argv)
 {
-	char *commands = NULL;
-	char *command_cpy = NULL;
-	char *token;
-	const char *delim = " \n";
-	size_t n = 0;
-	ssize_t line;
-	int i, j;
+	char **agv = NULL, *cmd = NULL, **colon = NULL;
+	size_t n = 0, cmd_count = 0;
+	ssize_t bytes_read = 1;
+	char st;
+	int status = 0;
 
-	while (1)
-	{
-		write(STDOUT_FILENO, "$ ", 2);
-		line = _getline(&commands, &n, stdin);
+	(void)status, (void)st, (void)bytes_read, (void)n;
 
-		if (line == - 1 || line == EOF)
-		{
-			err("Error reading line");
-
-		}
-
-		if (strcmp(commands, "exit\n") == 0)
-		{
-			exit(EXIT_SUCCESS);
-			break;
-		}
-		else if (strcmp(commands, "help\n") == 0)
-		{
-		}
-
-		command_cpy = malloc(sizeof(char) * line);
-		if (command_cpy == NULL)
-		{
-			perror("Mem allocation err");
-			break;
-		}
-
-		command_cpy = strdup(commands);
-		token = strtok(commands, delim);
-
-		while (token != NULL)
-		{
-			argc++;
-			token = strtok(NULL, delim);
-		}
-		argc++;
-
-		argv = malloc(sizeof(char *) * argc);
-
-		token = strtok(command_cpy, delim);
-		i = 0;
-
-		while (token != NULL)
-		{
-			argv[i] = malloc(sizeof(char) * strlen(token));
-			argv[i] = strdup(token);
-			i++;
-
-			token = strtok(NULL, delim);
-		}
-		argv[i] = NULL;
-
-		exe_commands(argv);
-
-
-	}
-	for (j = 0; j < i-1; j++)
-		free(argv[j]);
-	free(commands);
-	free(command_cpy);
-	free(argv);
+	signal(SIGINT, sig);
+	if (!isatty(STDIN_FILENO))
+		non_interactive(agv, cmd, cmd_count, stdin, status, argv, colon);
+	if (isatty(STDIN_FILENO) && argc == 1)
+		interactive(argc, agv, cmd, cmd_count, stdin, status, argv, colon);
 	return (0);
 }
+
