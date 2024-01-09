@@ -22,54 +22,90 @@ char *_getenv(const char *env_name)
 {
 	char **env;
 
-	env = environ;
-
-	while (*env != NULL)
+	if (env_name == NULL || env_name[0] == '\0' || _strchr(env_name, '=') != NULL)
+		return (NULL);
+	for (env = environ; *env != NULL; env++)
 	{
-		if (_strcmp(*env, env_name) == 0)
-			return (*env + _strlen(env_name) + 1);
-		env++;
+		if (strncmp(*env, env_name, _strlen(env_name)) == 0 && (*env)[_strlen(env_name)] == '=')
+			return ((*env) + _strlen(env_name) + 1);
 	}
 	return (NULL);
 }
 
 int _setenv(const char *name, const char *value, int overwrite)
 {
-	char *old_env, *env_str;
+	char *env_var, *new_env_var;
+	size_t len_name, len_value, len_total;
 
-	env_str = malloc(_strlen(name) + _strlen(value) + 3);
-	_strcpy(env_str, name);
-	_strcat(env_str, "=");
-	_strcat(env_str, value);
-	if (overwrite)
-	{
-		return (_putenv(env_str));
-	}
+	if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL)
+		return (-1);
+	env_var = _getenv(name);
+
+	if (env_var != NULL && !overwrite)
+		return (0);
+	len_name = _strlen(name);
+	len_value = (value != NULL) ? _strlen(value) : 0;
+	len_total = len_name + len_value + 2;
+
+	new_env_var = (char *)malloc(len_total);
+	if (new_env_var == NULL)
+		return (-1);
+
+	_strcpy(new_env_var, name);
+	new_env_var[len_name] = '=';
+
+	if (value != NULL)
+		_strcpy(new_env_var + len_name + 1, value);
 	else
+		new_env_var[len_name + 1] = '\0';
+
+	if (_putenv(new_env_var) != 0)
 	{
-		old_env = _getenv(name);
-		if (old_env != NULL)
-			free(old_env);
-		return (_putenv(env_str));
+		free(new_env_var);
+		return (-1);
 	}
+	return (0);
 }
 int _putenv(const char *str)
 {
-	char **env = environ;
-	char *new_env;
+	char *existing_env_var;
+	int result;
 
-	new_env = malloc(_strlen(str) + 1);
+	if (str == NULL || str[0] == '\0' || _strchr(str, '=') == NULL)
+		return (-1);
 
-	_strcpy(new_env, str);
-	while (*env != NULL)
+	existing_env_var = _getenv(str);
+	if (existing_env_var != NULL)
+		_unsetenv(str);
+	result = _setenv(str, "", 1);
+
+	if (result != 0)
+		return (-1);
+
+	return (0);
+}
+
+int _unsetenv(const char *name)
+{
+	char **env;
+
+	if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL)
+		return (-1);
+
+	env = environ;
+
+	for (env = environ; *env != NULL; ++env)
 	{
-		if (_strcmp(*env, new_env) == 0)
+		if (strncmp(*env, name, _strlen(name)) == 0 && (*env)[_strlen(name)] == '=')
 		{
-			free(new_env);
+			while (env[1] != NULL)
+			{
+				*env = env[1];
+				++env;
+			}
+			*env = NULL;
 			return (0);
 		}
-		env++;
 	}
-	*env = new_env;
 	return (0);
 }

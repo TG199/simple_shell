@@ -57,7 +57,7 @@ void free_arg(char **agv, char **colon);
 char *_getenv(const char *env_name);
 int _setenv(const char *name, const char *value, int overwrite);
 int _putenv(const char *str);
-
+int _unsetenv(const char *name);
 
 /* String function*/
 int _strncmp(const char *s1, const char *s2, size_t n);
