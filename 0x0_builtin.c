@@ -35,7 +35,7 @@ void cd_command(char **agv, char **argv, size_t cmd_count,
 		{
 			_setenv("OLDLPWD", _getenv("PWD"), 1);
 			_setenv("PWD", get_cwd(), 1);
-			_printf(STDOUT_FILENO, "%s\n", _getenv("PWD"));
+			_printf(STDOUT_FILENO, "%s\n", getenv("PWD"));
 		}
 		return;
 	}

@@ -29,33 +29,41 @@ char *_getenv(const char *env_name)
 		if (strncmp(*env, env_name, _strlen(env_name)) == 0 && (*env)[_strlen(env_name)] == '=')
 			return ((*env) + _strlen(env_name) + 1);
 	}
+
 	return (NULL);
 }
 
 int _setenv(const char *name, const char *value, int overwrite)
 {
-	char *env_var, *new_env_var;
-	size_t len_name, len_value, len_total;
+	char *env_str, *new_env_var;
+	size_t len_name;
+	size_t len_value;
+	size_t len_total;
 
-	if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL)
+	if (name == NULL ||  name[0] == '\0' || strchr(name, '=') != NULL)
 		return (-1);
-	env_var = _getenv(name);
 
-	if (env_var != NULL && !overwrite)
+	env_str = _getenv(name);
+
+	if (env_str != NULL && !overwrite)
 		return (0);
-	len_name = _strlen(name);
-	len_value = (value != NULL) ? _strlen(value) : 0;
+	len_name = strlen(name);
+	len_value = (value != NULL) ? strlen(value) : 0;
 	len_total = len_name + len_value + 2;
 
-	new_env_var = (char *)malloc(len_total);
-	if (new_env_var == NULL)
-		return (-1);
+	new_env_var = (char*)malloc(len_total);
 
-	_strcpy(new_env_var, name);
+	if (new_env_var == NULL)
+	{
+		return (-1);
+	}
+	strcpy(new_env_var, name);
 	new_env_var[len_name] = '=';
 
 	if (value != NULL)
-		_strcpy(new_env_var + len_name + 1, value);
+	{
+		strcpy(new_env_var + len_name + 1, value);
+	}
 	else
 		new_env_var[len_name + 1] = '\0';
 
@@ -68,14 +76,13 @@ int _setenv(const char *name, const char *value, int overwrite)
 }
 int _putenv(const char *str)
 {
-	char *existing_env_var;
+	char *existing_env = _getenv(str);
 	int result;
 
-	if (str == NULL || str[0] == '\0' || _strchr(str, '=') == NULL)
+	if (str == NULL	|| str[0] == '\0' || _strchr(str, '=') == NULL)
 		return (-1);
 
-	existing_env_var = _getenv(str);
-	if (existing_env_var != NULL)
+	if (existing_env != NULL)
 		_unsetenv(str);
 	result = _setenv(str, "", 1);
 
@@ -84,19 +91,16 @@ int _putenv(const char *str)
 
 	return (0);
 }
-
 int _unsetenv(const char *name)
 {
 	char **env;
 
 	if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL)
 		return (-1);
-
 	env = environ;
-
 	for (env = environ; *env != NULL; ++env)
 	{
-		if (strncmp(*env, name, _strlen(name)) == 0 && (*env)[_strlen(name)] == '=')
+		if (strncmp(*env, name, strlen(name)) == 0 && (*env)[_strlen(name)] == '=')
 		{
 			while (env[1] != NULL)
 			{

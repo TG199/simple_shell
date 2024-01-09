@@ -30,9 +30,9 @@ void non_interactive(char **agv, char *cmd, size_t cmd_count, FILE *stream,
 			if (*cmd != '\0')
 				execute(cmd, agv, argv, cmd_count, st, status, colon);
 			if (st)
-				continue;
-			if (!st)
 				break;
+			if (!st)
+				continue;
 		}
 	} while (bytes_read != -1);
 	exit(status);
