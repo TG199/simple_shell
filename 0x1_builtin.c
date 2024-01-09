@@ -36,7 +36,7 @@ char *_getenv(const char *env_name)
 int _setenv(const char *name, const char *value, int overwrite)
 {
 	char *old_env, *env_str;
-	
+
 	env_str = malloc(_strlen(name) + _strlen(value) + 3);
 	_strcpy(env_str, name);
 	_strcat(env_str, "=");

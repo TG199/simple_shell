@@ -33,7 +33,7 @@ void handle_comment(const char *str);
 /*Builtin Functions*/
 void cd_command(char **agv, char **argv, size_t cmd_count, char *cmd,
 		char **colon);
-void exit_command(char **agv, char **argv, size_t cmd_count,char *cmd,
+void exit_command(char **agv, char **argv, size_t cmd_count, char *cmd,
 		char **colon);
 char *get_cwd(void);
 int execute_builtin_command(char **agv, char **argv, size_t cmd_count, char *cmd,
