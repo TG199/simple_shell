@@ -1,6 +1,11 @@
 #include "shell.h"
 
-
+/**
+ * sig - signal
+ * @num: signal number
+ *
+ * Return: Nothing
+ */
 void sig(int num)
 {
 	(void)num;
@@ -9,6 +14,13 @@ void sig(int num)
 	fflush(stdout);
 }
 
+/**
+ * main - Entry point of program
+ * @argc: argument count
+ * @argv: argument variable
+ *
+ * Return: 0
+ */
 int main(int argc, char **argv)
 {
 	char **agv = NULL, *cmd = NULL, **colon = NULL;

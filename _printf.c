@@ -75,7 +75,7 @@ int _isspace(int c)
 
 
 /**
- * print - minature dprintf function
+ * _printf - minature printf function
  * @stream: stream to write to
  * @format: format to write
  *

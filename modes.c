@@ -1,5 +1,17 @@
 #include "shell.h"
 
+/**
+ * non_interactive - non interactive mode of shell program
+ * @agv: argument variable
+ * @cmd: command
+ * @cmd_count: command count
+ * @stream: input stream
+ * @status: status
+ * @argv: argument vector
+ * @colon: colon seperator
+ *
+ * Return: Nothing
+ */
 void non_interactive(char **agv, char *cmd, size_t cmd_count, FILE *stream,
 		int status, char **argv, char **colon)
 {
@@ -37,6 +49,19 @@ void non_interactive(char **agv, char *cmd, size_t cmd_count, FILE *stream,
 	} while (bytes_read != -1);
 	exit(status);
 }
+/**
+ * interactive - interactive mode of shell program
+ * @argc: argument count
+ * @agv: argument variable
+ * @cmd: command
+ * @cmd_count: command count
+ * @stream: input stream
+ * @status: status
+ * @argv: argument vector
+ * @colon: colon seperator
+ *
+ * Return: Nothing
+ */
 void interactive(int argc, char **agv, char *cmd, size_t cmd_count,
 		FILE *stream, int status, char **argv, char **colon)
 {

@@ -55,6 +55,14 @@ void cd_command(char **agv, char **argv, size_t cmd_count,
 	}
 }
 /**
+ * exit_command - exit command
+ * @agv: argument variable
+ * @argv: argument variable
+ * @cmd_count: Number of commands passed
+ * @cmd: command argument
+ * @colon: Command seperator
+ *
+ * Return:  Nothing
  */
 void exit_command(char **agv, char **argv, size_t cmd_count,
 		char *cmd, char **colon)

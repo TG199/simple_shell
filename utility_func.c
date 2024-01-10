@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * empty - Check empty string
+ * @str: string to check
+ *
+ * Return: 1
+ */
 int empty(const char *str)
 {
 	while (*str)
@@ -10,7 +16,12 @@ int empty(const char *str)
 	}
 	return (1);
 }
-
+/**
+ * remov - remove tab and newline in a string
+ * @str: string to remove tabs and spaces
+ *
+ * Return: Nothing
+ */
 void remov(char *str)
 {
 	int i, j;
@@ -40,6 +51,12 @@ void remov(char *str)
 	}
 	*dst = '\0';
 }
+/**
+ * rm_white_space - remove white space
+ * @cmd: command to remove white space
+ *
+ * Return: Nothing
+ */
 void rm_white_space(char *cmd)
 {
 	char *new;
@@ -63,6 +80,12 @@ void rm_white_space(char *cmd)
 	}
 	*new = '\0';
 }
+/**
+ * handle_comment - Handle commenting
+ * @dest: dest
+ *
+ * Return: Nothing
+ */
 void handle_comment(const char *dest)
 {
 	char *str_copy;

@@ -3,11 +3,11 @@
 /**
  * _strtok - Breaks a string into a sequence of zero or more nonempty tokens
  * @str: The string to be parsed
- * @del: Set of bytes that delimit the tokens in the parsed string
+ * @delim: Set of bytes that delimit the tokens in the parsed string
  *
  * Return: Pointer to the next token,
- *		or NULL if there are no more tokens.
-*/
+ * or NULL if there are no more tokens.
+ */
 char *_strtok(char *str, const char *delim)
 {
 	char *tok_st = NULL, *tok_ed = NULL;
@@ -86,8 +86,8 @@ char **split_vector(char *cmd, char *dl)
 }
 
 /**
- * free_arg- free's char **
- * @av: char **
+ * free_arg - free's char **
+ * @agv: char **
  * @colon: char **
  *
  * Return: void

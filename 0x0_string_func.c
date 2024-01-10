@@ -7,7 +7,7 @@
  * @n: number of bytes to compare
  *
  * Return: 0 on success
-*/
+ */
 int _strncmp(const char *s1, const char *s2, size_t n)
 {
 	while (n > 0 && *s1 == *s2 && *s1 != '\0' && *s2 != '\0')
@@ -54,7 +54,7 @@ char *_strcat(char *dst, const char *src)
  * @str: string to duplicate
  *
  * Return: pointer to the duplicated string
-*/
+ */
 char *_strdup(const char *str)
 {
 	size_t len = _strlen(str) + 1;
@@ -72,7 +72,7 @@ char *_strdup(const char *str)
  * @ch:charcter to compare
  *
  * Return: ointer to the location
-*/
+ */
 char *_strchr(const char *str, int ch)
 {
 	while (*str != '\0')

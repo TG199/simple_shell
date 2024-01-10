@@ -1,6 +1,15 @@
 #include "shell.h"
 
-
+/**
+ * execute_builtin_command - execute builtin command
+ * @agv: argument variable
+ * @argv: argument variable
+ * @cmd_count: command count
+ * @cmd: command passed
+ * @colon: colon separator
+ *
+ * Return: 1
+ */
 int execute_builtin_command(char **agv, char **argv, size_t cmd_count,
 		char *cmd, char **colon)
 {
@@ -26,7 +35,12 @@ int execute_builtin_command(char **agv, char **argv, size_t cmd_count,
 	}
 	return (1);
 }
-
+/**
+ * find_executable - find the executable file in PATH
+ * @agv: executable program to find
+ *
+ * Return: Executable
+ */
 char *find_executable(char **agv)
 {
 	char *path_env, *path_cpy, *token, *exe_path;
@@ -66,7 +80,16 @@ char *find_executable(char **agv)
 	free(path_cpy);
 	return (NULL);
 }
-
+/**
+ * execute_command -  execute a command
+ * @agv: argument variable
+ * @argv: argument variable
+ * @status: status
+ * @cmd_count: command count
+ * @stream: file stream
+ *
+ * Return: 1
+ */
 int execute_command(char **agv, char **argv, int status,
 		size_t cmd_count, char stream)
 {
@@ -104,6 +127,18 @@ int execute_command(char **agv, char **argv, int status,
 	}
 	return (-1);
 }
+/**
+ * execute - execute function
+ * @cmd:command
+ * @agv: argument count
+ * @argv: command count
+ * @cmd_count: command count
+ * @stream: file stream
+ * @status: status
+ * @colon: colon separator
+ *
+ * Return: execute function
+ */
 int execute(char *cmd, char **agv, char **argv,
 		size_t cmd_count, char stream, int status, char **colon)
 {
