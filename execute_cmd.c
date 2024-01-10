@@ -152,7 +152,8 @@ int execute(char *cmd, char **agv, char **argv,
 		if (status != 0)
 			status = execute_command(agv, argv, status, cmd_count, stream);
 	}
-	if (isatty(STDIN_FILENO))
+	
+	if (!isatty(STDIN_FILENO))
 		free_arg(agv, colon);
 	return (status);
 }
