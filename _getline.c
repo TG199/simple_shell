@@ -11,12 +11,11 @@
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	char *buffer;
-	size_t bufsize, i;
+	size_t bufsize = 20, i = 0;
 	ssize_t bytes_read;
 	int fd;
 	char c;
 
-	bufsize = 20, i = 0;
 	buffer = malloc(sizeof(char) * bufsize);
 	if (buffer == NULL)
 	{
@@ -51,3 +50,4 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	*lineptr = buffer;
 	return (bytes_read);
 }
+
