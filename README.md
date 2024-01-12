@@ -1,1 +1,1 @@
-# Simple Shell Projeect
+ALX Simple shell project
